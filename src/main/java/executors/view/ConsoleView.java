@@ -21,8 +21,17 @@ public class ConsoleView implements View{
 
     @Override
     public void endComputation() {
-        for(Pair<String, Integer> file : controller.getResult().getComputedFiles()) {
-            System.out.println(file.getX()+": "+file.getY());
+        System.out.println("Ranking: ");
+
+        List<Pair<String, Integer>> rankingList = new LinkedList<>(this.controller.getResult().getRanking());
+        for(Pair<String, Integer> p : rankingList) {
+            System.out.println(p.getX()+": "+p.getY());
+        }
+
+        System.out.println("Intervals: ");
+        Map<Pair<Integer, Integer>, Integer> filesInRange = this.controller.getResult().getFilesInRange();
+        for(Map.Entry<Pair<Integer, Integer>, Integer> p : filesInRange.entrySet()) {
+            System.out.println(p.getKey().getX()+"-"+p.getKey().getY()+": "+p.getValue());
         }
     }
 

@@ -29,9 +29,7 @@ public class ControllerImpl implements Controller{
         Folder folder = Folder.fromDirectory(new File(path));
         LinesCounter lc = new LinesCounter();
         results = lc.countOccurrencesInParallel(folder);
-        Thread.sleep(2000);
         this.model.addResults(results);
-        Thread.sleep(2000);
         this.endComputation();
     }
 

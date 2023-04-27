@@ -37,6 +37,6 @@ public class Main {
         System.out.println("Inserisci il numero di intervalli: ");
         int numIntervals = Integer.parseInt(bufferedReader.readLine());
         */
-        controller.start("C:\\Users\\pietr\\Desktop\\ex", 10, 10, 10);
+        controller.start("C:\\Users\\pietr\\Desktop\\PCD-Assignment-02\\PCD-Assignment-02\\file", 3, 40, 3);
     }
 }
