@@ -1,15 +1,13 @@
 package executors.model;
 
-import executors.controller.Controller;
-import executors.utils.ComputedFileImpl;
 import executors.utils.Pair;
+import executors.utils.SynchronizedList;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.RecursiveTask;
 
-public class FolderSearchTask extends RecursiveTask<List<Pair<String, Integer>>> {
+public class FolderSearchTask extends RecursiveTask<SynchronizedList> {
     private final Folder folder;
 
     public FolderSearchTask(Folder folder) {
@@ -18,11 +16,11 @@ public class FolderSearchTask extends RecursiveTask<List<Pair<String, Integer>>>
     }
     
     @Override
-    protected List<Pair<String, Integer>> compute() {
+    protected SynchronizedList compute() {
         List<RecursiveTask<Pair<String, Integer>>> DocumentsForks = new LinkedList<>();
-        List<RecursiveTask<List<Pair<String, Integer>>>> SubfolderForks = new LinkedList<>();
+        List<RecursiveTask<SynchronizedList>> SubfolderForks = new LinkedList<>();
 
-        List<Pair<String, Integer>> results = new ArrayList<>();
+        SynchronizedList results = new SynchronizedList();
 
         for (Folder subFolder : folder.getSubFolders()) {
             FolderSearchTask task = new FolderSearchTask(subFolder);
@@ -37,8 +35,11 @@ public class FolderSearchTask extends RecursiveTask<List<Pair<String, Integer>>>
         }
 
         for (RecursiveTask<Pair<String, Integer>> task : DocumentsForks) {
-            Pair<String, Integer> pair = task.join();
-            results.add(pair);
+            results.add(task.join());
+        }
+
+        for (RecursiveTask<SynchronizedList> task : SubfolderForks) {
+            results.addAll(task.join());
         }
 
         return results;

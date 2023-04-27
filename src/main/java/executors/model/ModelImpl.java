@@ -1,9 +1,7 @@
 package executors.model;
 
 import executors.utils.ComputedFileImpl;
-import executors.utils.Pair;
-
-import java.util.List;
+import executors.utils.SynchronizedList;
 
 import static java.util.Collections.reverseOrder;
 import static java.util.Comparator.comparing;
@@ -16,7 +14,7 @@ public class ModelImpl implements Model{
     }
 
     @Override
-    public void addResults(List<Pair<String, Integer>> results) {
+    public void addResults(SynchronizedList results) {
         results.addAll(results);
     }
 

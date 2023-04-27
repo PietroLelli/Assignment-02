@@ -5,16 +5,17 @@ import executors.model.LinesCounter;
 import executors.model.Model;
 import executors.utils.ComputedFileImpl;
 import executors.utils.Pair;
+import executors.utils.SynchronizedList;
 import executors.view.View;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class ControllerImpl implements Controller{
     private final Model model;
     private final View view;
 
+    SynchronizedList results = new SynchronizedList();
 
     public ControllerImpl(Model model, View view){
         this.model = model;
@@ -27,8 +28,9 @@ public class ControllerImpl implements Controller{
         this.model.setup(topN, maxL, numIntervals);
         Folder folder = Folder.fromDirectory(new File(path));
         LinesCounter lc = new LinesCounter();
-        List<Pair<String, Integer>> res = lc.countOccurrencesInParallel(folder);
-        this.model.addResults(res);
+        results = lc.countOccurrencesInParallel(folder);
+        Thread.sleep(2000);
+        this.model.addResults(results);
         Thread.sleep(2000);
         this.endComputation();
     }

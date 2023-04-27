@@ -5,17 +5,15 @@
  */
 package executors.model;
 
-import executors.utils.ComputedFileImpl;
-import executors.utils.Pair;
+import executors.utils.SynchronizedList;
 
-import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
 public class LinesCounter {
 
     private final ForkJoinPool forkJoinPool = new ForkJoinPool();
 
-    public List<Pair<String, Integer>> countOccurrencesInParallel(Folder folder) {
+    public SynchronizedList countOccurrencesInParallel(Folder folder) {
         return forkJoinPool.invoke(new FolderSearchTask(folder));
     }
 
